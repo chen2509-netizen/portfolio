@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>陳品靜 (Ching Chen) — Portfolio</title>
+  <meta name="description" content="Portfolio of 陳品靜 (Ching Chen): software and AI engineering, M.S. Information Management at NTUST.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F3F6F7;
+      --side: #ECF1F3;
+      --surface: #FFFFFF;
+      --text: #0F172A;
+      --muted: #475569;
+      --faint: #64748B;
+      --line: #E2E8F0;
+      --accent: #0E7490;
+      --accent-soft: #ECFEFF;
+      --sans: "Inter", "Noto Sans TC", system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    strong { color: var(--text); font-weight: 600; }
+
+    /* ---------- Layout: fixed left column + scrolling right column ---------- */
+    .wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 64px;
+    }
+    .side {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 56px 40px 56px 0;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      isolation: isolate;
+      overflow-y: auto;
+    }
+    /* Extend the sidebar tint to the left edge of the viewport.
+       (A box-shadow, so the sidebar can scroll without clipping it.) */
+    .side { background: var(--side); box-shadow: -50vw 0 0 50vw var(--side); }
+    main { padding: 56px 0 64px; }
+
+    /* ---------- Left column ---------- */
+    .side h1 {
+      margin: 0;
+      color: var(--text);
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+    .side h1 .en { display: block; font-weight: 500; color: var(--muted); font-size: 17px; }
+    .role { margin: 10px 0 0; color: var(--accent); font-family: var(--mono); font-size: 13px; letter-spacing: .02em; }
+
+    .nav { list-style: none; margin: 32px 0 0; padding: 0; }
+    .nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 0;
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .nav a::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      transition: width .2s ease;
+    }
+    .nav a:hover, .nav a.active { color: var(--text); }
+    .nav a.active::before { width: 56px; background: var(--accent); }
+
+    /* Project sub-items: hidden until the Projects section is in view. */
+    .subnav { list-style: none; margin: 0; padding: 0 0 0 42px; display: none; }
+    .nav li.open .subnav { display: block; }
+    .nav .subnav a {
+      padding: 3px 0;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+    .nav .subnav a::before { display: none; }
+    .nav .subnav a.active { color: var(--accent); }
+    .project { scroll-margin-top: 32px; }
+
+    .email { margin: auto 0 10px; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 22px;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+    .links a { color: var(--muted); }
+    .links a:hover { color: var(--accent); }
+
+    /* ---------- Sections ---------- */
+    section { padding-bottom: 96px; scroll-margin-top: 64px; }
+    .label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 0 28px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    section > p { margin: 0 0 18px; }
+    .lead { color: var(--text); font-size: 20px; font-weight: 500; line-height: 1.5; }
+    .skills { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .skills dl { display: grid; grid-template-columns: 110px 1fr; gap: 6px 16px; margin: 0; font-size: 15px; }
+    .skills dt { font-family: var(--mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; padding-top: 3px; }
+    .skills dd { margin: 0; color: var(--text); }
+    .skills .sep { color: var(--faint); margin: 0 2px; }
+
+    /* ---------- Experience ---------- */
+    .job { display: grid; grid-template-columns: 150px 1fr; gap: 24px; margin-bottom: 44px; }
+    .when {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top: 4px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--faint);
+    }
+    .when .bar { width: 1px; height: 18px; margin: 4px 0 4px 6px; background: var(--line); }
+    .when .gap { height: 10px; }
+    .job h3, .project h3 { margin: 0; color: var(--text); font-size: 18px; font-weight: 600; line-height: 1.4; }
+    .org { margin: 2px 0 10px; font-size: 15px; }
+    .job ul, .project ul { margin: 0; padding-left: 18px; }
+    .job li, .project li { margin-bottom: 6px; }
+    .job .tags { padding-left: 0; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding: 0; list-style: none; }
+    .tags li {
+      margin: 0;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .type {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 1px 8px;
+      border: 1px solid #D5DEE5;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #334155;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      vertical-align: 3px;
+      letter-spacing: .04em;
+    }
+
+    .exp-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 36px 36px 0;
+    }
+    .exp-panel .job:last-child { margin-bottom: 0; padding-bottom: 36px; }
+
+    /* ---------- Projects ---------- */
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 32px 36px;
+      margin-bottom: 28px;
+    }
+    .head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .head .type { margin-left: 0; vertical-align: 0; }
+    .org .type { margin-left: 10px; vertical-align: middle; }
+    .project .meta { margin: 6px 0 0; font-family: var(--mono); font-size: 12px; color: var(--faint); }
+    .project .summary { margin: 14px 0 20px; color: var(--text); font-family: "Source Serif 4", Georgia, serif; font-size: 18px; line-height: 1.55; }
+    .project > .tags { margin-top: 28px; padding-left: 0; }
+    .project dl { margin: 0; display: grid; grid-template-columns: 130px 1fr; gap: 14px 20px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .project dt { font-family: var(--mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: .06em; padding-top: 4px; }
+    .project dd { margin: 0; }
+
+    /* ---------- Archive ---------- */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 24px 32px 8px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    tbody tr:last-child td { border-bottom: 0; }
+    th {
+      text-align: left;
+      padding: 0 12px 12px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--faint);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td.date { white-space: nowrap; }
+    table.archive { table-layout: fixed; }
+    td.name { color: var(--text); font-weight: 500; }
+    td.kind .type { margin-left: 0; vertical-align: 0; }
+    td .tags { margin: 0; gap: 6px; }
+    td .tags li { font-size: 11px; padding: 2px 8px; }
+
+    footer { padding: 0 0 64px; font-size: 13px; color: var(--faint); }
+
+    /* Basic narrow-screen fallback; full mobile pass comes later. */
+    @media (max-width: 960px) {
+      .wrap { display: block; padding: 0 24px; }
+      .side { position: static; height: auto; padding: 64px 0 32px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .side { background: none; box-shadow: none; }
+      .nav { display: none; }
+      .links { margin-top: 28px; }
+      main { padding-top: 32px; }
+      .job, .project dl { grid-template-columns: 1fr; gap: 4px; }
+      .project { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="side">
+    <h1>陳品靜 <span class="en">(Ching Chen)</span></h1>
+    <p class="role">AI &amp; Software Engineer</p>
+
+    <ul class="nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li class="has-sub"><a href="#projects">Projects</a>
+        <ul class="subnav">
+          <li><a href="#p-streaming">Digital Human Streaming</a></li>
+          <li><a href="#p-travel">Travel Game Content</a></li>
+          <li><a href="#p-rag">Multi-Agent &amp; RAG</a></li>
+          <li><a href="#p-robot">Unity Mobile Robot</a></li>
+        </ul>
+      </li>
+      <li><a href="#archive">Archive</a></li>
+    </ul>
+
+    <p class="email">chenching2509@gmail.com</p>
+    <div class="links">
+      <a href="https://github.com/chen2509-netizen" target="_blank" rel="noopener">GitHub</a>
+      <a href="../resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <a href="../visual/index.html">Visual version</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about">
+      <h2 class="label">About</h2>
+      <p class="lead">Software and AI engineering, with an industrial-engineering habit of measuring before trusting.</p>
+      <p>M.S. student in Information Management at NTUST, with a background in Industrial Management. I work across software engineering and applied AI, from iOS and Unity applications to model deployment and LLM pipelines.</p>
+      <p>My industrial-engineering training shapes how I build: define the problem clearly, set a baseline, and verify results before shipping.</p>
+      <p><strong>Research focus:</strong> Aerial path planning for UAV-based 3D reconstruction.</p>
+
+      <div class="skills">
+        <dl>
+          <dt>Programming</dt><dd>Python <span class="sep">·</span> C# <span class="sep">·</span> Swift <span class="sep">·</span> C++ <span class="sep">·</span> SQL <span class="sep">·</span> R</dd>
+          <dt>AI / CV</dt><dd>PyTorch <span class="sep">·</span> scikit-learn <span class="sep">·</span> YOLO <span class="sep">·</span> RAG <span class="sep">·</span> LLM pipelines <span class="sep">·</span> Reinforcement learning (PPO)</dd>
+          <dt>Engineering</dt><dd>FastAPI <span class="sep">·</span> Unity <span class="sep">·</span> SwiftUI <span class="sep">·</span> Firebase / APNs <span class="sep">·</span> Docker <span class="sep">·</span> Git <span class="sep">·</span> Linux</dd>
+          <dt>Data / LLM</dt><dd>Scrapy <span class="sep">·</span> PostgreSQL <span class="sep">·</span> CrewAI <span class="sep">·</span> Pydantic <span class="sep">·</span> ChromaDB <span class="sep">·</span> pytest</dd>
+          <dt>3D / Sim</dt><dd>AirSim <span class="sep">·</span> Unreal Engine <span class="sep">·</span> COLMAP <span class="sep">·</span> OpenMVS</dd>
+          <dt>Modeling</dt><dd>Gurobi <span class="sep">·</span> AMPL <span class="sep">·</span> Path planning (RRT*, A*)</dd>
+          <dt>Languages</dt><dd>Mandarin (native) <span class="sep">·</span> English (TOEIC 825) <span class="sep">·</span> Japanese (JLPT N3)</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience">
+      <h2 class="label">Experience</h2>
+      <div class="exp-panel">
+
+      <article class="job">
+        <div class="when"><span>2026.01</span><span class="bar"></span><span>2026.06</span></div>
+        <div>
+          <h3>Unity Game Curriculum Developer Intern</h3>
+          <p class="org">ITRI · Service Systems Technology Center · Hsinchu <span class="type">Internship</span></p>
+          <ul>
+            <li>Built 2D educational games in Unity (C#) by extending an existing modular framework.</li>
+            <li>Designed game mechanics around the learning goals of students with ADHD.</li>
+            <li>Developed and tested FastAPI services for hosting models locally.</li>
+          </ul>
+          <ul class="tags"><li>Unity</li><li>C#</li><li>FastAPI</li></ul>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><span>2025.07</span><span class="bar"></span><span>2025.08</span><span class="gap"></span><span>2026.01</span></div>
+        <div>
+          <h3>iOS Front-end Developer · Emergency Notification System</h3>
+          <p class="org">NTUST Lab × MiTAC Digital Technology <span class="type">Industry–Academia</span></p>
+          <ul>
+            <li>Built the iOS front end in SwiftUI and connected it to RESTful APIs for real-time reporting and location services.</li>
+            <li>Set up push notifications end to end: Firebase Cloud Messaging with APNs, certificate (.p12) and key configuration, and device-token registration, so high-priority alerts reach devices reliably.</li>
+          </ul>
+          <ul class="tags"><li>Swift</li><li>SwiftUI</li><li>Firebase</li><li>APNs</li></ul>
+        </div>
+      </article>
+
+      <article class="job">
+        <div class="when"><span>2025.05</span><span class="bar"></span><span>2025.06</span></div>
+        <div>
+          <h3>Model Training &amp; Evaluation · Driver Distraction Detection</h3>
+          <p class="org">NTUST Lab × MiTAC Digital Technology <span class="type">Industry–Academia</span></p>
+          <ul>
+            <li>Trained deep-learning models to detect distracted driving, using hierarchical learning and data augmentation to make them more robust.</li>
+            <li>Evaluated the models across several datasets and refined them based on the results.</li>
+          </ul>
+          <ul class="tags"><li>PyTorch</li><li>CV</li><li>Hierarchical Learning</li><li>Data Augmentation</li></ul>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section id="projects">
+      <h2 class="label">Projects</h2>
+
+      <article class="project" id="p-streaming">
+        <div class="head"><h3>Real-time Digital Human Streaming</h3><span class="type">Industry–Academia</span></div>
+        <p class="meta">2026.07 – PRESENT</p>
+        <p class="summary">Real-time streaming output for a talking-avatar generator, replacing offline batch rendering.</p>
+        <dl>
+          <dt>Overview</dt>
+          <dd>The open-source talking-head model renders a complete video only after every frame has been generated, which prevents real-time use in a live digital-human demo. The goal is to deliver frames to the browser as they are generated.</dd>
+          <dt>Role</dt>
+          <dd>Deployment, latency analysis, output-pipeline redesign, and the browser-side media receiver.</dd>
+          <dt>Approach</dt>
+          <dd><ul>
+            <li>Reproducible setup: one-command installation, verified on RTX 3060 and RTX 4090.</li>
+            <li>Stage-by-stage timing before any change; the delay traced to the final "render everything, then convert" step rather than the model.</li>
+            <li>Per-frame encoding and transmission as each frame is generated, with audio paced by generation speed to keep sound and picture in sync. The model itself remains unmodified.</li>
+          </ul></dd>
+          <dt>Validation</dt>
+          <dd>Frame-by-frame comparison against the original pipeline output, identical across the full test clip.</dd>
+          <dt>Outcome</dt>
+          <dd>First-frame wait reduced by more than half.</dd>
+        </dl>
+        <ul class="tags"><li>Python</li><li>PyTorch</li><li>Video streaming</li><li>WebRTC</li><li>GPU deployment</li></ul>
+      </article>
+
+      <article class="project" id="p-travel">
+        <div class="head"><h3>Fact-grounded Content Generation for a Travel Game</h3><span class="type">Industry–Academia</span></div>
+        <p class="meta">2026.09 – PRESENT</p>
+        <p class="summary">An LLM writing pipeline in which every sentence traces back to a stored fact.</p>
+        <dl>
+          <dt>Overview</dt>
+          <dd>A travel game requires a large volume of location-based story content. LLM output is fluent but can contain fabricated details, so the content must be both engaging and traceable to a source.</dd>
+          <dt>Role</dt>
+          <dd>Data collection and design of the generation and review process.</dd>
+          <dt>Approach</dt>
+          <dd><ul>
+            <li>Government open data crawled into a validated, duplicate-free database, covered by unit tests.</li>
+            <li>Mandatory fact citation for every generated sentence, with writing style controlled through personas.</li>
+            <li>Proposed asynchronous backend with token authentication for the mobile app.</li>
+          </ul></dd>
+          <dt>Validation</dt>
+          <dd>Sentence-level audit by an AI reviewer against each cited source, with automatic-fail rules. The reviewer is calibrated against human ratings and regression-tested on a fixed reference set.</dd>
+          <dt>Outcome</dt>
+          <dd>A generation process in which every sentence is traceable and auditable.</dd>
+        </dl>
+        <ul class="tags"><li>Python</li><li>Scrapy</li><li>PostgreSQL</li><li>CrewAI</li><li>Pydantic</li><li>Docker</li><li>pytest</li></ul>
+      </article>
+
+      <article class="project" id="p-rag">
+        <div class="head"><h3>Multi-Agent Skills &amp; a Personal RAG System</h3><span class="type">Course</span></div>
+        <p class="meta">2026.03 – 2026.06</p>
+        <p class="summary">Structured knowledge from 21 academic papers, packaged as skills that AI agents can call reliably.</p>
+        <dl>
+          <dt>Overview</dt>
+          <dd>Agent skills backed by a retrieval system over academic papers, built in a multi-agent framework.</dd>
+          <dt>Role</dt>
+          <dd>Full design and implementation.</dd>
+          <dt>Approach</dt>
+          <dd><ul>
+            <li>Multilingual retrieval with sentence-transformers and ChromaDB, running locally without a server.</li>
+            <li>Two-stage skill synthesis: multi-round knowledge sampling, then consolidation into one structured skill file.</li>
+          </ul></dd>
+          <dt>Validation</dt>
+          <dd>Four-step text cleaning and MD5 hashing keep the knowledge base and vector store fully in sync. Tool calls are validated against a defined schema.</dd>
+          <dt>Outcome</dt>
+          <dd>Reusable, structured skills extracted from 21 academic papers, with automated error handling.</dd>
+        </dl>
+        <ul class="tags"><li>Python</li><li>RAG</li><li>ChromaDB</li><li>Multi-agent</li></ul>
+      </article>
+
+      <article class="project" id="p-robot">
+        <div class="head"><h3>Autonomous Mobile Robot in Unity Simulation</h3><span class="type">Course</span></div>
+        <p class="meta">2026.03 – 2026.06</p>
+        <p class="summary">A simulated mobile robot that perceives its surroundings, plans a path, and completes tasks such as grasping objects and opening doors.</p>
+        <dl>
+          <dt>Overview</dt>
+          <dd>Perception, planning, and control integrated in a single Unity simulation of an autonomous vehicle.</dd>
+          <dt>Role</dt>
+          <dd>Design and implementation of the core algorithms, built on the provided sample code and project structure.</dd>
+          <dt>Approach</dt>
+          <dd><ul>
+            <li>Object detection and segmentation with YOLO.</li>
+            <li>Collision-free path planning with RRT* and A*, plus trajectory tracking.</li>
+            <li>Reinforcement learning (PPO) for control policies, including a target-tracking task.</li>
+          </ul></dd>
+          <dt>Validation</dt>
+          <dd>Testing across randomized scenarios rather than a single fixed layout.</dd>
+          <dt>Outcome</dt>
+          <dd>End-to-end task completion in simulation: object detection, collision-free navigation, grasping, and door opening.</dd>
+        </dl>
+        <ul class="tags"><li>Unity</li><li>C#</li><li>Python</li><li>YOLO</li><li>RRT* / A*</li><li>PPO</li></ul>
+      </article>
+    </section>
+
+    <!-- ===================== ARCHIVE ===================== -->
+    <section id="archive">
+      <h2 class="label">Archive</h2>
+      <div class="panel">
+      <table class="archive">
+        <colgroup>
+          <col style="width: 96px">
+          <col>
+          <col style="width: 120px">
+          <col style="width: 168px">
+        </colgroup>
+        <thead>
+          <tr><th>Date</th><th>Project</th><th>Type</th><th>Key techniques</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="date"><div class="when"><span>2025.11</span><span class="bar"></span><span>2025.12</span></div></td>
+            <td class="name">3D Reconstruction &amp; Trajectory Simulation</td><td class="kind"><span class="type">Research</span></td>
+            <td><ul class="tags"><li>Python</li><li>CV</li><li>Single-view 3D</li><li>View Synthesis</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2025.05</span><span class="bar"></span><span>2025.06</span></div></td>
+            <td class="name">Japanese Sentiment Analysis</td><td class="kind"><span class="type">Course</span></td>
+            <td><ul class="tags"><li>Python</li><li>NLP</li><li>BERT</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2024.09</span><span class="bar"></span><span>2024.12</span></div></td>
+            <td class="name">Hospital Appointment System</td><td class="kind"><span class="type">Course</span></td>
+            <td><ul class="tags"><li>Python</li><li>PyQt</li><li>SQLite</li><li>3NF</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2023.09</span><span class="bar"></span><span>2024.06</span></div></td>
+            <td class="name">Multi-objective Scheduling Optimization</td><td class="kind"><span class="type">Capstone</span></td>
+            <td><ul class="tags"><li>Python</li><li>Gurobi</li><li>GA</li><li>SA</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2024.05</span><span class="bar"></span><span>2024.06</span></div></td>
+            <td class="name">Vehicle Routing Model Reproduction</td><td class="kind"><span class="type">Course</span></td>
+            <td><ul class="tags"><li>AMPL</li><li>MIP</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2023.09</span><span class="bar"></span><span>2023.12</span></div></td>
+            <td class="name">Minesweeper Game</td><td class="kind"><span class="type">Course</span></td>
+            <td><ul class="tags"><li>Python</li><li>PyQt</li></ul></td></tr>
+          <tr><td class="date"><div class="when"><span>2022.02</span><span class="bar"></span><span>2022.06</span></div></td>
+            <td class="name">Chinese Chess Game &amp; Big-number Calculator</td><td class="kind"><span class="type">Course</span></td>
+            <td><ul class="tags"><li>C++</li><li>CLI</li></ul></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <footer>Designed and built by 陳品靜 (Ching Chen) · 2026</footer>
+  </main>
+</div>
+
+<script>
+  // Highlight the nav item for the section currently in view,
+  // and open the project sub-items only while Projects is in view.
+  const spy = { rootMargin: '-40% 0px -55% 0px' };
+  const links = document.querySelectorAll('.nav > li > a');
+  const projectItem = document.querySelector('.nav .has-sub');
+  const subLinks = document.querySelectorAll('.subnav a');
+
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const id = entry.target.id;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      projectItem.classList.toggle('open', id === 'projects');
+    });
+  }, spy);
+  document.querySelectorAll('main section').forEach(s => sectionObserver.observe(s));
+
+  const projectObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      subLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+    });
+  }, spy);
+  document.querySelectorAll('.project').forEach(p => projectObserver.observe(p));
+</script>
+</body>
+</html>
